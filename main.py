@@ -6,7 +6,6 @@ import pandas as pd
 
 
 def web(i, shared_data):
-    """Функция для парсинга сайта"""
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     driver = webdriver.Chrome(options=options)
@@ -48,7 +47,7 @@ def web(i, shared_data):
 
 if __name__ == "__main__":
     manager = multiprocessing.Manager()
-    shared_data = manager.list()  # Общий список для сбора данных
+    shared_data = manager.list()
 
     years = list(range(11, 26))  # 2010-2024
     processes = []
@@ -61,9 +60,8 @@ if __name__ == "__main__":
     for p in processes:
         p.join()
 
-    # Преобразуем данные в DataFrame и сохраняем
     df = pd.DataFrame(list(shared_data), columns=["date", "wind_direction", "wind_speed", "visibility", "temp",
                                                   "temp_d", "humidity", "temp_e", "temp_es", "pressure", "pressure_o"])
     df.to_csv("weather_data.csv", index=False, encoding="utf-8")
 
-    print("✅ Данные сохранены в weather_data.csv")
+    print("Данные сохранены в weather_data.csv")
